@@ -21,10 +21,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="myModule\game.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="readenv.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="WerewolfBot.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="myModule\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

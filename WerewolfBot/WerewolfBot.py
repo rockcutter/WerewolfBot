@@ -1,4 +1,5 @@
 import discord
+from myModule import game
 
 client = discord.Client()
 
