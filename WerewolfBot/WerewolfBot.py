@@ -8,6 +8,8 @@ client = discord.Client()
 def main():
     gm = game.game()
 
+    
+
     @client.event
     async def on_ready():
         print("ready")

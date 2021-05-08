@@ -1,6 +1,14 @@
-import myModule.game
+import myModule.role
 
-class werewolf(game.game):
-    """人狼システムの実装"""
-
-
+class werewolf(role.role):
+    """人狼ロール"""
+    def __init__(self):
+        
+        return
+    
+    def AddRole(self,player,roleID):
+        """
+        ロールを付与する
+        
+        """
+        return
