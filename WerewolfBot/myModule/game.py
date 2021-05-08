@@ -53,13 +53,16 @@ class game(object):
 
     def AddMember(self,name):
         """
-        メンバーを追加する関数
+        メンバーを追加する関数 同メンバーが入ることはない
         Args:
             string PlayerName
+        Returns: 
+            追加成功でTrue 失敗でFlase
         """
-
+        if(name in self.member):
+            return False
         self.member.append(name)
-        return
+        return True
     
     def GetMemberList(self):
         """

@@ -15,7 +15,11 @@ def main():
     @client.event
     async def on_message(message):
         if(message.content == "!join"):
-            gm.AddMember(message.author)
+            if(gm.AddMember(message.author)):
+                await message.channel.send(str(message.author) + "の参加を受け付けました")
+            return
+
+
     client.run(readenv.TOKEN)
 
 if __name__ == "__main__":
