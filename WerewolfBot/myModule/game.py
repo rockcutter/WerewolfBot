@@ -8,33 +8,58 @@ class game(object):
     
 
     def __init__(self):
+        """
+        コンストラクタ 初期化メソッドを呼び出す
+        """
+
         self.InitGame()
         return
 
+
     def InitGame(self):
+        """
+        初期化メソッド メンバ変数を初期化する際に呼び出される
+        """
+
         member = []
         status = PHASE_RECEPTION
         return 
 
+
     def Start(self):
+        """
+        statusをPHASE_INPROGRESSに変更する ゲームをスタートさせる
+
+        Returns: 
+            既にPHASE_INPROGRESSならFalse 機能通りに働いたならTrueを返す
+        """
         if(status & PHASE_INPROGRESS == PHASE_INPROGRESS):
             return False
         status = PHASE_INPROGRESS
         return True
 
     def Stop(self):
+        """
+        statusをPHASE_RECEPTIONに変更する ゲームをストップさせる
+
+        Returns: 
+            既にPHASE_RECEPTIONならFlase 機能通りに働いたならTrueを返す
+        """
         if(status & PHASE_RECEPTION == PHASE_RECEPTION):
             return False
         status = PHASE_RECEPTION
         self.InitGame()
         return True
 
+    def AddMember(self,name):
+        """
+        メンバーを追加する関数
+        Args:
+            string PlayerName
+        """
 
-    #概要: メンバーを追加する関数
-    #引数: メンバーを示す文字列
-    #戻り値: 無し
-    def AddMember(self,str):
-        self.member.append(str)
+
+        self.member.append(name)
         return
 
     
