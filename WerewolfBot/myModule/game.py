@@ -58,8 +58,14 @@ class game(object):
             string PlayerName
         """
 
-
         self.member.append(name)
         return
-
+    
+    def GetMemberList(self):
+        """
+        メンバーリストを取得する関数
+        Returns:
+            メンバー情報が格納されたリスト
+        """
+        return self.member
     
