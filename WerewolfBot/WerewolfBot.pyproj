@@ -26,6 +26,9 @@
     <Compile Include="myModule\game.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="myModule\remarker.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="myModule\role.py">
       <SubType>Code</SubType>
     </Compile>

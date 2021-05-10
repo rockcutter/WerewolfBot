@@ -1,5 +1,8 @@
 SIDE_VILLAGER = 0
-SIDE_WEREWOLF = 0
+SIDE_WEREWOLF = 1
+
+
+
 
 class role(object):
     """役職基底クラス"""
@@ -7,15 +10,18 @@ class role(object):
     player = None
     action = None
     side = None
+    guild = None
 
-    def Action():
+    def Action(self,arg):
         """
         設定されたアクションを行う
+        Args: 
+            arg: アクションに必要な変数
         Returns:
             actionがNoneだった場合Falseを返す
         """
         if(action != None):
-            return action()
+            return action(arg)
         return False
 
     

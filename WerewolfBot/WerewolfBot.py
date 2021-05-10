@@ -1,12 +1,13 @@
 import discord
 
-from myModule import game
+import myModule.werewolf
+import myModule.game
 import readenv
 
 client = discord.Client()
 
 def main():
-    gm = game.game()
+    gm = myModule.game.game()
 
     
 
@@ -16,11 +17,14 @@ def main():
 
     @client.event
     async def on_message(message):
+        guild = message.guild
+        ww = myModule.werewolf.werewolf(guild)
+        await ww.Action(message.author)
+
         if(message.content == "!join"):
             if(gm.AddMember(message.author)):
                 await message.channel.send(str(message.author) + "の参加を受け付けました")
             return
-
 
     client.run(readenv.TOKEN)
 
