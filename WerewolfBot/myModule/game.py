@@ -72,12 +72,14 @@ class game(object):
         """
         return self.member
 
-    def GetGamePhase(self):
+    def GameInProgress(self):
         """
-        ゲームフェイズを返す関数
+        ゲームが進行中か否かを返す
         Returns:
-            self.status (ゲームフェイズ)
+            ゲームが進行中ならTrue 逆はFalse
         """
-        return self.status
+        if(self.status & PHASE_INPROGRESS == PHASE_INPROGRESS):
+            return True
+        return False
         
     
