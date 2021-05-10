@@ -17,16 +17,30 @@ def main():
 
     @client.event
     async def on_message(message):
-        guild = message.guild
-        ww = myModule.werewolf.werewolf(guild)
-        await ww.Action(message.author)
+        if(str(message.content)[0] == "!"):return
 
-        if(message.content == "!join"):
+        if(not gm.GameInProgress()):
+            await ReceptionPahseCmd(message)
+            return
+
+        
+
+
+        
+    client.run(readenv.TOKEN)
+
+
+    async def ReceptionPhaseCmd(message):
+        if(message.content == "!join" ):
             if(gm.AddMember(message.author)):
                 await message.channel.send(str(message.author) + "の参加を受け付けました")
             return
 
-    client.run(readenv.TOKEN)
+        if(message.content == "!start"):
+            gm.Start()
+            return
+
 
 if __name__ == "__main__":
     main()
+
