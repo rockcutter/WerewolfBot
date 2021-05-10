@@ -71,4 +71,13 @@ class game(object):
             メンバー情報が格納されたリスト
         """
         return self.member
+
+    def GetGamePhase(self):
+        """
+        ゲームフェイズを返す関数
+        Returns:
+            self.status (ゲームフェイズ)
+        """
+        return self.status
+        
     
