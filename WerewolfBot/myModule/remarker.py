@@ -1,4 +1,0 @@
-channel = None
-guild = None
-
-
