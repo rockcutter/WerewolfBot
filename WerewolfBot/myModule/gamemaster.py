@@ -31,8 +31,10 @@ class gamemaster(myModule.game.game):
 
     def GetDayPhase(self):
         return self.time & 0b00000001
+    
+    def Vote():
 
-
+        return
 
     def AddRoleList(self,roleData,count):
         for buf in range(count):

@@ -26,8 +26,8 @@ def main():
             await ReceptionPhaseCmd(message)
             return
 
-        if(gm.GameInProgres()):
-
+        if(gm.GameInProgress()):
+            await InProgressPhaseCmd(message)
             return
 
 
@@ -40,6 +40,7 @@ async def ReceptionPhaseCmd(message):
         playerData = myModule.player.player(message.author)
         if(gm.AddMember(playerData)):
             await message.channel.send(str(message.author) + "の参加を受け付けました")
+            await message.channel.send(gm.member)
         return
 
     if(message.content == "!setting"):
@@ -63,6 +64,13 @@ async def ReceptionPhaseCmd(message):
         gm.AddRoleList(roleObjBuf,int(roleCountStr.content))
 
     if(message.content == "!start"):
+        gm.Start()
+        await message.channel.send("!start")
+    return
+
+
+async def InProgressPhaseCmd(message):
+    if(message.content == "!start"):
         channel = message.channel
         gm.RegisterRole()
         for mem in gm.member:
@@ -76,7 +84,7 @@ async def ReceptionPhaseCmd(message):
                 await channel.send(str(gm.GetDay())+"日目 "+ "昼")
                 await channel.send("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
 
-
+                
 
 
 
@@ -91,7 +99,6 @@ async def ReceptionPhaseCmd(message):
             #先の処理を追加するまでbreak
             break
     return
-
 def IsInt(val):
     try:
         int(val)
