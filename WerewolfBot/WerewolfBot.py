@@ -63,11 +63,8 @@ async def ReceptionPhaseCmd(message):
         gm.AddRoleList(roleObjBuf,int(roleCountStr.content))
 
     if(message.content == "!start"):
-        #チャンネルを別変数として記録
         channel = message.channel
-        #ロールの振り分け
         gm.RegisterRole()
-        #ロールの開示
         for mem in gm.member:
             await mem.playerData.send("あなたの役職は" + mem.role.RoleNameStr()+ "です")
 
@@ -77,8 +74,20 @@ async def ReceptionPhaseCmd(message):
             gm.TimePasses()
             if(gm.GetDayPhase() == myModule.gamemaster.DAYPHASE_NIGHTPHASE):
                 await channel.send(str(gm.GetDay())+"日目 "+ "昼")
+                await channel.send("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
+
+
+
+
+
             else:
                 await channel.send(str(gm.GetDay())+"日目 "+ "夜")
+                await channel.send("恐ろしい夜の時間がやってきました。役職持ちのプレイヤーはDMにてアクションを行ってください")
+
+
+
+
+
             #先の処理を追加するまでbreak
             break
     return
