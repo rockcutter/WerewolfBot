@@ -57,8 +57,9 @@ class game():
         Returns: 
             追加成功でTrue 失敗でFlase
         """
-        if(playerData in self.member):
-            return False
+        for memberName in self.member:
+            if(memberName.playerData == playerData.playerData):
+                return False
         self.member.append(playerData)
         return True
     
