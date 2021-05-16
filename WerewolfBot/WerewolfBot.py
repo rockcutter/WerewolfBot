@@ -79,7 +79,8 @@ async def ReceptionPhaseCmd(message):
                 await channel.send(str(gm.GetDay())+"日目 "+ "昼")
             else:
                 await channel.send(str(gm.GetDay())+"日目 "+ "夜")
-            print("test")
+            #先の処理を追加するまでbreak
+            break
     return
 
 def IsInt(val):
