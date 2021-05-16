@@ -38,11 +38,17 @@ class gamemaster(myModule.game.game):
         return self.time & 0b00000001
     
     def Vote(self,message):
-        
-        return
+        if(0 <= int(message.content) and int(message.content) < len(myModule.game.game.member)):
+            votedList[int(message.content)] += 1
+            return True
+        return False
 
     def VotedCount(self):
         return len(self.votedList)
+
+    def InitVotedList(self):
+        self.votedList = [0] * len(myModule.game.game.member)
+        return 
 
     def AddRoleList(self,roleData,count):
         for buf in range(count):
