@@ -38,7 +38,7 @@ class gamemaster(myModule.game.game):
         return
 
     def VotedCount(self):
-        return self.votedList.count()
+        return len(self.votedList)
 
     def AddRoleList(self,roleData,count):
         for buf in range(count):
