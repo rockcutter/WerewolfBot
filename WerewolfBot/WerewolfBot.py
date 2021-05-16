@@ -15,6 +15,7 @@ def main():
 
     @client.event
     async def on_ready():
+        
         print("ready")
 
     @client.event
@@ -43,7 +44,7 @@ async def ReceptionPhaseCmd(message):
             await message.channel.send(gm.member)
         return
 
-    if(message.content == "!setting"):
+    if(message.content == "!set"):
         #phase識別が必要
         #ロール人数の決定
         await message.channel.send("村人の人数を設定してください")
@@ -64,14 +65,18 @@ async def ReceptionPhaseCmd(message):
         gm.AddRoleList(roleObjBuf,int(roleCountStr.content))
 
     if(message.content == "!start"):
+        if(len(gm.RoleList()) == 0):
+            await message.channel.send("!set")
+            return
         gm.Start()
         await message.channel.send("!start")
     return
 
 
 async def InProgressPhaseCmd(message):
+    channel = message.channel
     if(message.content == "!start"):
-        channel = message.channel
+        
         gm.RegisterRole()
         for mem in gm.member:
             await mem.playerData.send("あなたの役職は" + mem.role.RoleNameStr()+ "です")
@@ -83,6 +88,8 @@ async def InProgressPhaseCmd(message):
             if(gm.GetDayPhase() == myModule.gamemaster.DAYPHASE_NIGHTPHASE):
                 await channel.send(str(gm.GetDay())+"日目 "+ "昼")
                 await channel.send("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
+
+                
 
                 while(gm.MemberCount() > gm.VotedCount()):
                     message = await client.wait_for("message")
@@ -103,9 +110,10 @@ async def InProgressPhaseCmd(message):
             #先の処理を追加するまでbreak
             break
     if(message.content == "!list"):
-        for mem in gm.GetMemberList():
-            await channel.send(mem)
+        for i in range(len(gm.GetMemberList())):
+            await channel.send(str(i) + ": " + str(gm.GetMemberList()[i].playerData))
     return
+
 def IsInt(val):
     try:
         int(val)
