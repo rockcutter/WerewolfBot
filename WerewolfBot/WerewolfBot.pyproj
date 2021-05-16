@@ -26,10 +26,19 @@
     <Compile Include="myModule\game.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\role.py">
+    <Compile Include="myModule\gamemaster.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\werewolf.py">
+    <Compile Include="myModule\player.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="myModule\roles\role.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="myModule\roles\villager.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="myModule\roles\werewolf.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="readenv.py">
@@ -39,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="myModule\" />
+    <Folder Include="myModule\roles\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.7" />

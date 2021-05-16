@@ -1,37 +1,36 @@
-import myModule.role
+import myModule.roles.role
 import readenv
 
-class werewolf(myModule.role.role):
+class werewolf(myModule.roles.role.role):
     """人狼ロール"""
-       
+    guild = None
 
     def __init__(self,argGuild):
         """
         コンストラクタ
         Args:
-            guild: データ型
+            argGuild: データ型
         """
-        myModule.role.name = "werewolf"
-        myModule.role.player = None
-        myModule.role.side = myModule.role.SIDE_WEREWOLF
-        myModule.role.action = self.WerewolfAction
-        myModule.role.guild = argGuild
-        
+        myModule.roles.role.name = "werewolf"
+        myModule.roles.role.side = myModule.roles.role.SIDE_WEREWOLF
+        myModule.roles.role.action = self.WerewolfAction
+        self.guild = argGuild
         return
     
+
     def WerewolfAction(self,player):
         """
         人狼アクションを行う キル対象のプレイヤー情報をplayerに代入
         Args:
             player:Member型
-        """         
-        return self.AddRole(player)
-
+        """    
+        self.AddRole(player)
+        return 
 
     async def AddRole(self,player):
         """
         killedロールを付与する
         """
-        killedRole = myModule.role.guild.get_role(readenv.KILLEDID)
+        killedRole = self.guild.get_role(readenv.KILLEDID)
         await player.add_roles(killedRole)
         return

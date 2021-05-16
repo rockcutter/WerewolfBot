@@ -7,10 +7,8 @@ SIDE_WEREWOLF = 1
 class role(object):
     """役職基底クラス"""
     name = None
-    player = None
     action = None
     side = None
-    guild = None
 
     def Action(self,arg):
         """
@@ -24,4 +22,6 @@ class role(object):
             return action(arg)
         return False
 
+    def RoleNameStr(self):
+        return name;
     
