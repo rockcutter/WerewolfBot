@@ -71,6 +71,9 @@ class game():
         """
         return self.member
 
+    def MemberCount(self):
+        return self.member.count()
+
     def GameInProgress(self):
         """
         ゲームが進行中か否かを返す

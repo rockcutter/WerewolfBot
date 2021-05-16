@@ -7,6 +7,7 @@ DAYPHASE_NIGHTPHASE = 0b00000000
 class gamemaster(myModule.game.game):
     time = None
     roleList = []
+    votedList = []
 
     def __init__(self):
         self.time= 0b00000001 #最下位ビットが1で夜 初期化は0日目夜
@@ -32,9 +33,12 @@ class gamemaster(myModule.game.game):
     def GetDayPhase(self):
         return self.time & 0b00000001
     
-    def Vote():
-
+    def Vote(self,message):
+        self.votedList
         return
+
+    def VotedCount(self):
+        return self.votedList.count()
 
     def AddRoleList(self,roleData,count):
         for buf in range(count):
