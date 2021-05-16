@@ -84,7 +84,11 @@ async def InProgressPhaseCmd(message):
                 await channel.send(str(gm.GetDay())+"日目 "+ "昼")
                 await channel.send("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
 
-                
+                while(gm.MemberCount() > gm.VotedCount()):
+                    message = await client.wait_for("message")
+                    if(not IsInt(message.content)):
+                        continue
+                    gm.Vote(message)
 
 
 
@@ -98,6 +102,9 @@ async def InProgressPhaseCmd(message):
 
             #先の処理を追加するまでbreak
             break
+    if(message.content == "!list"):
+        for mem in gm.GetMemberList():
+            await channel.send(mem)
     return
 def IsInt(val):
     try:
