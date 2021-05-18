@@ -9,7 +9,7 @@ class gamemaster(myModule.game.game):
     time = None
     roleList = []
     votedList = []
-    
+    votedCount = 0
 
     def __init__(self):
         self.time= 0b00000001 #最下位ビットが1で夜 初期化は0日目夜
@@ -39,15 +39,18 @@ class gamemaster(myModule.game.game):
     
     def Vote(self,message):
         if(0 <= int(message.content) and int(message.content) < len(myModule.game.game.member)):
-            votedList[int(message.content)] += 1
+            self.votedList[int(message.content)] += 1
+            self.votedCount += 1
             return True
         return False
 
     def VotedCount(self):
-        return len(self.votedList)
+        return self.votedCount
+    
 
     def InitVotedList(self):
         self.votedList = [0] * len(myModule.game.game.member)
+        self.votedCount = 0
         return 
 
     def AddRoleList(self,roleData,count):
@@ -59,3 +62,12 @@ class gamemaster(myModule.game.game):
         executedRole = guild.get_role(readenv.EXECUTEDID)
         await player.add_roles(executedRole)
         return
+
+    async def Execution(self,guild):
+        #処刑する関数
+        for i in range(len(self.votedList)):
+            if(self.votedList[i] == max(self.votedList)):
+                
+                await self.AddRole(myModule.game.game.member[i].playerData,guild)
+                return True
+        return False
