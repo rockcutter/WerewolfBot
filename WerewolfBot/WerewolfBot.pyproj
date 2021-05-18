@@ -23,28 +23,31 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="myModule\command.py">
+    <Compile Include="MyModule\command.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\game.py">
+    <Compile Include="MyModule\game.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\gamemaster.py">
+    <Compile Include="MyModule\gamemaster.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\player.py">
+    <Compile Include="myModule\ManagerModule\PlayerManager.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\roles\role.py">
+    <Compile Include="MyModule\PlayerModule\player.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\manager\rolemanager.py">
+    <Compile Include="MyModule\RoleModule\role.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\roles\villager.py">
+    <Compile Include="myModule\ManagerModule\RoleManager.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="myModule\roles\werewolf.py">
+    <Compile Include="MyModule\RoleModule\villager.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MyModule\RoleModule\werewolf.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="readenv.py">
@@ -53,9 +56,10 @@
     <Compile Include="WerewolfBot.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="myModule\" />
-    <Folder Include="myModule\manager\" />
-    <Folder Include="myModule\roles\" />
+    <Folder Include="MyModule\" />
+    <Folder Include="myModule\ManagerModule\" />
+    <Folder Include="MyModule\PlayerModule\" />
+    <Folder Include="MyModule\RoleModule\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.7" />

@@ -1,4 +1,4 @@
-import myModule.roles.role
+import MyModule.roles.role
 import readenv
 
 class werewolf(myModule.roles.role.role):

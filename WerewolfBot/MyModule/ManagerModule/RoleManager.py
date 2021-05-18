@@ -1,6 +1,6 @@
 #管理クラス
 
-class rolemanager(object):
+class RoleManager(object):
     """ロール管理全般"""
 
     roleObjList = []
@@ -32,7 +32,7 @@ class rolemanager(object):
         self.wolfRoleCount += 1
         return
 
-    #死亡時処理
+    #死亡時処理-----------------------------------------------------
     def VillageDeathProcess(self):
         self.villageRoleCount -= 1
         return

@@ -1,14 +1,23 @@
 import discord
 
-import myModule.roles.werewolf
-import myModule.roles.villager
-import myModule.gamemaster
-import myModule.player
+from MyModule.ManagerModule import PlayerManager
+from MyModule.ManagerModule import RoleManager
+
+import MyModule.PlayerModule.player
+import MyModule.RoleModule.werewolf
+import MyModule.RoleModule.villager
+import MyModule.gamemaster
+
+import MyModule.PlayerModule.player
 import readenv
 
 
 client = discord.Client()
-gm = myModule.gamemaster.gamemaster()
+gm = MyModule.gamemaster.gamemaster()
+
+#管理クラス
+plmgr = PlayerManager()
+rlmgr = RoleManager()
 
 def main():
      
@@ -37,9 +46,10 @@ def main():
 
 async def ReceptionPhaseCmd(message):
     if(message.content == "!join" ):
-        playerData = myModule.player.player(message.author)
-        if(gm.AddMember(playerData)):
-            await message.channel.send(str(message.author) + "の参加を受け付けました")
+        tempPlayerObj = MyModule.PlayerModule.player.player()
+        tempPlayerObj.RegisterPlayerObj(message.author)
+        tempPlayerObj.RegisterRole(None)
+        plmgr.AppendPlayer()
         return
 
     if(message.content == "!set"):
@@ -50,7 +60,7 @@ async def ReceptionPhaseCmd(message):
         while(not IsInt(roleCountStr.content)):
             roleCountStr = await client.wait_for("message")
         #村人ロールの登録
-        roleObjBuf = myModule.roles.villager.villager()
+        roleObjBuf = MyModule.roles.villager.villager()
         gm.AddRoleList(roleObjBuf,int(roleCountStr.content))
         
         await message.channel.send("人狼の人数を設定してください")
@@ -59,7 +69,7 @@ async def ReceptionPhaseCmd(message):
             roleCountStr = await client.wait_for("message")
             print("test")
         #村人ロールの登録
-        roleObjBuf = myModule.roles.werewolf.werewolf(message.guild)
+        roleObjBuf = MyModule.roles.werewolf.werewolf(message.guild)
         gm.AddRoleList(roleObjBuf,int(roleCountStr.content))
 
     if(message.content == "!start"):
@@ -87,7 +97,7 @@ async def InProgressPhaseCmd(message):
             gm.InitVotedList()
 
             #フェイズ分岐処理
-            if(gm.GetDayPhase() == myModule.gamemaster.DAYPHASE_NIGHTPHASE):
+            if(gm.GetDayPhase() == MyModule.gamemaster.DAYPHASE_NIGHTPHASE):
                 #昨晩の結果発表処理
                 await channel.send(str(gm.GetDay())+"日目 "+ "昼")
                 await channel.send("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")

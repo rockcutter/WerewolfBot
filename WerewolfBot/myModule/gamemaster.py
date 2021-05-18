@@ -1,11 +1,11 @@
-import myModule.game
+import MyModule.game
 import random
 import readenv
 
 DAYPHASE_NOONPHASE = 0b00000001
 DAYPHASE_NIGHTPHASE = 0b00000000
 
-class gamemaster(myModule.game.game):
+class gamemaster(MyModule.game.game):
     time = None
     roleList = []
     votedList = []
@@ -20,7 +20,7 @@ class gamemaster(myModule.game.game):
         random.shuffle(self.roleList)
         #ロールをプレイヤーに付与
         print(self.roleList)
-        for mem in myModule.game.game.member:
+        for mem in MyModule.game.game.member:
             mem.RegisterRole(self.roleList.pop(0))
         return
 
@@ -38,7 +38,7 @@ class gamemaster(myModule.game.game):
         return self.time & 0b00000001
     
     def Vote(self,message):
-        if(0 <= int(message.content) and int(message.content) < len(myModule.game.game.member)):
+        if(0 <= int(message.content) and int(message.content) < len(MyModule.game.game.member)):
             self.votedList[int(message.content)] += 1
             self.votedCount += 1
             return True
@@ -49,7 +49,7 @@ class gamemaster(myModule.game.game):
     
 
     def InitVotedList(self):
-        self.votedList = [0] * len(myModule.game.game.member)
+        self.votedList = [0] * len(MyModule.game.game.member)
         self.votedCount = 0
         return 
 
@@ -68,6 +68,6 @@ class gamemaster(myModule.game.game):
         for i in range(len(self.votedList)):
             if(self.votedList[i] == max(self.votedList)):
                 
-                await self.AddRole(myModule.game.game.member[i].playerData,guild)
+                await self.AddRole(MyModule.game.game.member[i].playerData,guild)
                 return True
         return False
