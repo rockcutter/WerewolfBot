@@ -15,7 +15,6 @@ def main():
 
     @client.event
     async def on_ready():
-        
         print("ready")
 
     @client.event
@@ -41,7 +40,6 @@ async def ReceptionPhaseCmd(message):
         playerData = myModule.player.player(message.author)
         if(gm.AddMember(playerData)):
             await message.channel.send(str(message.author) + "の参加を受け付けました")
-            await message.channel.send(gm.member)
         return
 
     if(message.content == "!set"):
@@ -80,12 +78,17 @@ async def InProgressPhaseCmd(message):
         gm.RegisterRole()
         for mem in gm.member:
             await mem.playerData.send("あなたの役職は" + mem.role.RoleNameStr()+ "です")
-
+            
         gm.Start()
         await channel.send("(なんか長いルール説明)")
         while(gm.GameInProgress()):
+            #フェイズ初期化
             gm.TimePasses()
+            gm.InitVotedList()
+
+            #フェイズ分岐処理
             if(gm.GetDayPhase() == myModule.gamemaster.DAYPHASE_NIGHTPHASE):
+                #昨晩の結果発表処理
                 await channel.send(str(gm.GetDay())+"日目 "+ "昼")
                 await channel.send("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
 
@@ -97,18 +100,21 @@ async def InProgressPhaseCmd(message):
                         continue
                     gm.Vote(message)
 
-
+                await gm.Execution(message.guild)
 
             else:
                 await channel.send(str(gm.GetDay())+"日目 "+ "夜")
                 await channel.send("恐ろしい夜の時間がやってきました。役職持ちのプレイヤーはDMにてアクションを行ってください")
-
+                                
+                #人狼アクション
+                
+                #占い師アクション
 
 
 
 
             #先の処理を追加するまでbreak
-            break
+            
     if(message.content == "!list"):
         for i in range(len(gm.GetMemberList())):
             await channel.send(str(i) + ": " + str(gm.GetMemberList()[i].playerData))
@@ -121,6 +127,8 @@ def IsInt(val):
         return False
     else:
         return True
+
+
 
 if __name__ == "__main__":
     main()
