@@ -1,8 +1,10 @@
 #管理クラス
+import random
 
 from MyModule.RoleModule import role
 from MyModule.RoleModule import villager
 from MyModule.RoleModule import werewolf
+
 
 class RoleManager(object):
     """ロール管理全般"""
@@ -27,6 +29,11 @@ class RoleManager(object):
 
     def LoadAllRoleList(self):
         return self.allRoleList
+
+    #ランダム化されたロールリストを返す
+    def LoadRandomizedRoleObjList(self):
+        random.shuffle(self.roleObjList)
+        return self.roleObjList
 
     #生存中のロール数を返す処理-------------------------------------
     def LoadVillageRoleCount(self):
