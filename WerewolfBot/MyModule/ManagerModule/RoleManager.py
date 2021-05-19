@@ -19,21 +19,21 @@ class RoleManager(object):
     
     def ManuInit(self):
         """手動初期化の際に呼び出し"""
-        allRoleList = [villager.villager(), werewolf.werewolf()]
+        self.allRoleList = [villager.villager(), werewolf.werewolf()]
         self.roleObjList = []
-        villageRoleCount = 0
-        wolfRoleCount = 0
+        self.villageRoleCount = 0
+        self.wolfRoleCount = 0
         return
 
     def LoadAllRoleList(self):
-        return allRoleList
+        return self.allRoleList
 
     #ロール登録処理--------------------------------------------------
     def AppendRole(self,roleObj):
         self.roleObjList.append(roleObj)
-        if(roleObj.side = role.SIDE_VILLAGER):
+        if(roleObj.side == role.SIDE_VILLAGER):
             self.villageRoleCount += 1
-        if(roleObj.side = role.SIDE_WEREWOLF):
+        if(roleObj.side == role.SIDE_WEREWOLF):
             self.wolfRoleCount += 1
         return
 
