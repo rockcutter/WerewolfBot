@@ -2,6 +2,7 @@ import discord
 #Manager
 from MyModule.ManagerModule import PlayerManager
 from MyModule.ManagerModule import RoleManager
+from MyModule.ManagerModule import GameManager
 #role
 from MyModule.RoleModule import villager
 from MyModule.RoleModule import werewolf
@@ -11,22 +12,23 @@ from MyModule.PlayerModule import player
 from MyModule.Utilities import UtilFunctions
 #discord
 from MyModule.DiscordControl import DiscordControl
-
-import MyModule.gamemaster
-
-import MyModule.PlayerModule.player
+#readenv
 import readenv
-
-
-client = discord.Client()
-gm = MyModule.gamemaster.gamemaster()
 
 #管理クラス
 plmgr = PlayerManager.PlayerManager()
 rolemgr = RoleManager.RoleManager()
+gmmgr = GameManager.GameManager()
 
 #discordコントロールクラス
 discCtrl = DiscordControl.DiscordControl()
+
+client = discord.Client()
+
+
+#どうすんのこれ
+import MyModule.gamemaster
+gm = MyModule.gamemaster.gamemaster()
 
 
 
@@ -48,12 +50,14 @@ def main():
             gameActivated = 1
             return
 
-        #受付状態のコマンド処理
-        if(not gm.GameInProgress()):
+        if(gmmgr.CheckStatus() == GameManager.STATUS_NOTACTIVATED):
+            return
+
+        if(gmmgr.CheckStatus() == GameManager.STATUS_RECEPTION):
             await ReceptionPhaseCmd(message)
             return
 
-        if(gm.GameInProgress()):
+        if(gmmgr.CheckStatus() == GameManager.STATUS_INPROGRESS):
             await InProgressPhaseCmd(message)
             return
 
@@ -78,6 +82,7 @@ async def ReceptionPhaseCmd(message):
         #ロール人数の決定
         for tempRoleObj in rolemgr.LoadAllRoleList():
             await SetRoleCount(tempRoleObj)
+        await discCtrl.Say("役職数の登録が完了しました")
 
     if(message.content == "!start"):
         if(len(gm.RoleList()) == 0):
