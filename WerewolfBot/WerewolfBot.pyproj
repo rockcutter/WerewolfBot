@@ -23,10 +23,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MyModule\DiscordControl\DiscordControl.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MyModule\game.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MyModule\gamemaster.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="myModule\ManagerModule\GameManager.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="myModule\ManagerModule\PlayerManager.py">
@@ -58,6 +64,7 @@
   <ItemGroup>
     <Folder Include="MyModule\" />
     <Folder Include="myModule\ManagerModule\" />
+    <Folder Include="MyModule\DiscordControl\" />
     <Folder Include="MyModule\Utilities\" />
     <Folder Include="MyModule\PlayerModule\" />
     <Folder Include="MyModule\RoleModule\" />

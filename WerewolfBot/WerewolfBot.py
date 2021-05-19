@@ -47,9 +47,10 @@ def main():
         if(message.content == "!werewolf"):
             discCtrl.RegisterChannel(message.channel)
             discCtrl.RegisterGuild(message.guild)
-            gameActivated = 1
+            gmmgr.ActivateGame()
             return
 
+        #Phase分岐
         if(gmmgr.CheckStatus() == GameManager.STATUS_NOTACTIVATED):
             return
 
@@ -85,11 +86,12 @@ async def ReceptionPhaseCmd(message):
         await discCtrl.Say("役職数の登録が完了しました")
 
     if(message.content == "!start"):
-        if(len(gm.RoleList()) == 0):
-            await message.channel.send("!set")
+        if(rolemgr.LoadVillageRoleCount() + rolemgr.LoadWolfRoleCount() <= 0):
+            await discCtrl.Say("!set")
             return
-        gm.Start()
-        await message.channel.send("!start")
+        gmmgr.StartGame()
+        await ddiscCtrl.Say("!start")
+        return
     return
 
 
