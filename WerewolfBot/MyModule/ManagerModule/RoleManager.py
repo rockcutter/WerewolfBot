@@ -1,8 +1,13 @@
 #管理クラス
 
+from MyModule.RoleModule import role
+from MyModule.RoleModule import villager
+from MyModule.RoleModule import werewolf
+
 class RoleManager(object):
     """ロール管理全般"""
 
+    roleTemplateList = [villager.villager(), werewolf.werewolf()]
     roleObjList = []
     villageRoleCount = 0 
     wolfRoleCount = 0
@@ -22,14 +27,12 @@ class RoleManager(object):
         return
 
     #ロール登録処理--------------------------------------------------
-    def AppendVillageRole(self,roleObj):
+    def AppendRole(self,roleObj):
         self.roleObjList.append(roleObj)
-        self.villageRoleCount += 1
-        return
-
-    def AppendWolfRole(self,roleObj):
-        self.roleObjList.append(roleObj)
-        self.wolfRoleCount += 1
+        if(roleObj.side = role.SIDE_VILLAGER):
+            self.villageRoleCount += 1
+        if(roleObj.side = role.SIDE_WEREWOLF):
+            self.wolfRoleCount += 1
         return
 
     #死亡時処理-----------------------------------------------------
