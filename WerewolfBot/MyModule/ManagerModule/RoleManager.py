@@ -7,20 +7,19 @@ from MyModule.RoleModule import werewolf
 class RoleManager(object):
     """ロール管理全般"""
 
-    roleTemplateList = [villager.villager(), werewolf.werewolf()]
+    roleTemplateList = []
     roleObjList = []
     villageRoleCount = 0 
     wolfRoleCount = 0
 
     def __init__(self):
         """コンストラクタ"""
-        self.roleObjList = []
-        villageRoleCount = 0
-        wolfRoleCount = 0
+        self.ManuInit()
         return
     
     def ManuInit(self):
         """手動初期化の際に呼び出し"""
+        roleTemplateList = [villager.villager(), werewolf.werewolf()]
         self.roleObjList = []
         villageRoleCount = 0
         wolfRoleCount = 0
