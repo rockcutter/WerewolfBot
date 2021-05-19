@@ -6,16 +6,17 @@ class PlayerManager():
     """全プレイヤーとその属性を管理するクラス"""
 
     playerClassList = []
-    playerDataObjList = []
+    playerCount = 0
 
 
     def __init__(self):
         playerClassList = []
-        playerDataObjList = []
+        playerCount = 0
         return
 
     def AppendPlayer(self,playerDataObj):
         self.playerClassList.append(playerDataObj)
+        playerCount += 1
         return
 
     def IsPlayer(self,argObj):
@@ -33,3 +34,6 @@ class PlayerManager():
 
     def LoadPlayerClassList(self):
         return self.playerClassList
+
+    def LoadPlayerCount(self):
+        return self.playerCount
