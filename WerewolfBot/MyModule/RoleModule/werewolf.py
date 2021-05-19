@@ -1,20 +1,19 @@
 from MyModule.RoleModule import role
+from MyModule.DiscordControl import DiscordControl
 import readenv
 
 class werewolf(role.role):
     """人狼ロール"""
-    guild = None
 
-    def __init__(self,argGuild):
+    def __init__(self):
         """
         コンストラクタ
         Args:
             argGuild: データ型
         """
-        role.role.name = "werewolf"
-        role.role.side = role.SIDE_WEREWOLF
-        role.role.action = self.WerewolfAction
-        self.guild = argGuild
+        self.name = "werewolf"
+        self.side = role.SIDE_WEREWOLF
+        self.action = self.WerewolfAction
         return
     
 
@@ -24,13 +23,4 @@ class werewolf(role.role):
         Args:
             player:Member型
         """    
-        self.AddRole(player)
         return 
-
-    async def AddRole(self,player):
-        """
-        killedロールを付与する
-        """
-        killedRole = self.guild.get_role(readenv.KILLEDID)
-        await player.add_roles(killedRole)
-        return

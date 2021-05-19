@@ -7,9 +7,9 @@ class villager(role.role):
         """
         コンストラクタ
         """
-        role.role.name = "villager"
-        role.role.side = role.SIDE_VILLAGER
-        role.role.action = self.VillagerAction
+        self.name = "villager"
+        self.side = role.SIDE_VILLAGER
+        self.action = self.VillagerAction
         return    
 
     def VillagerAction(self,player):
