@@ -28,6 +28,13 @@ class RoleManager(object):
     def LoadAllRoleList(self):
         return self.allRoleList
 
+    #生存中のロール数を返す処理-------------------------------------
+    def LoadVillageRoleCount(self):
+        return self.villageRoleCount
+
+    def LoadWolfRoleCount(self):
+        return self.wolfRoleCount
+
     #ロール登録処理--------------------------------------------------
     def AppendRole(self,roleObj):
         self.roleObjList.append(roleObj)
