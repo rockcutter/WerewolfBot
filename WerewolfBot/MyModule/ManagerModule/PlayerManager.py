@@ -26,5 +26,10 @@ class PlayerManager():
 
         return False
 
+    def ApplyRole(self,roleObjList):
+        for i in range(len(self.playerClassList)):
+            self.playerClassList[i].RegisterRole(roleObjList[i])
+        return
+
     def LoadPlayerClassList(self):
         return self.playerClassList
