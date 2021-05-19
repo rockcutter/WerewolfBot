@@ -9,7 +9,8 @@ from MyModule.RoleModule import werewolf
 from MyModule.PlayerModule import player
 #util
 from MyModule.Utilities import UtilFunctions
-
+#discord
+from MyModule.DiscordControl import DiscordControl
 
 import MyModule.gamemaster
 
@@ -24,10 +25,15 @@ gm = MyModule.gamemaster.gamemaster()
 plmgr = PlayerManager.PlayerManager()
 rolemgr = RoleManager.RoleManager()
 
+#discordコントロールクラス
+discCtrl = DiscordControl.DiscordControl()
 
 
 
 def main():
+    #人狼ゲームの受付&ゲームが開始しているかどうか(人狼ゲームそのものの開始判定フラグ
+    
+    
     @client.event
     async def on_ready():
         print("ready")
@@ -35,6 +41,12 @@ def main():
     @client.event
     async def on_message(message):
         if(str(message.content)[0] != "!"):return
+
+        if(message.content == "!werewolf"):
+            discCtrl.RegisterChannel(message.channel)
+            discCtrl.RegisterGuild(message.guild)
+            gameActivated = 1
+            return
 
         #受付状態のコマンド処理
         if(not gm.GameInProgress()):
@@ -64,28 +76,8 @@ async def ReceptionPhaseCmd(message):
     if(message.content == "!set"):
         #phase識別が必要
         #ロール人数の決定
-        await message.channel.send("村人の人数を設定してください")
-        tempCount = await UtilFunctions.WaitforInteger(client)
-        for i in range(tempCount):
-            tempRoleObj = villager.villager()
-            rolemgr.AppendVillageRole(tempRoleObj)
-
-
-
-        roleCountStr = message #初期化のため
-        while(not IsInt(roleCountStr.content)):
-            roleCountStr = await client.wait_for("message")
-        #村人ロールの登録
-        roleObjBuf = MyModule.roles.villager.villager()
-        gm.AddRoleList(roleObjBuf,int(roleCountStr.content))
-        
-        await message.channel.send("人狼の人数を設定してください")
-        roleCountStr = message #初期化のため
-        while(not IsInt(roleCountStr.content)):
-            roleCountStr = await client.wait_for("message")
-        #村人ロールの登録
-        roleObjBuf = MyModule.roles.werewolf.werewolf(message.guild)
-        gm.AddRoleList(roleObjBuf,int(roleCountStr.content))
+        for tempRoleObj in rolemgr.LoadAllRoleList():
+            await SetRoleCount(tempRoleObj)
 
     if(message.content == "!start"):
         if(len(gm.RoleList()) == 0):
@@ -97,10 +89,10 @@ async def ReceptionPhaseCmd(message):
 
 
 async def SetRoleCount(roleObj):
-    await message.channel.send(str(roleObj.name) + "の人数を設定してください")
+    await discCtrl.Say(str(roleObj.name) + "の人数を設定してください")
     tempCount = await UtilFunctions.WaitforInteger(client)
     for i in range(tempCount):
-        rolemgr.AppendVillageRole(roleObj)
+        rolemgr.AppendRole(roleObj)
     return
 
 
