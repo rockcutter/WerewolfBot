@@ -18,3 +18,6 @@ class player(object):
 
     def LoadPlayerObj(self):
         return self.playerObj
+
+    def LoadRoleObj(self):
+        return self.roleObj
