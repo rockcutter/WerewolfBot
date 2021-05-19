@@ -5,14 +5,14 @@ STATUS_ACCEPTSUPPORTCMD=0x00100001 #ゲーム進行中&サポートコマンド�
 
 class GameManager(object):
     """Gameの進行を管理する"""
-    gameStatus = NOTACTIVATED
+    gameStatus = STATUS_NOTACTIVATED
 
     def __init__(self):
         self.ManuInit()
         return
 
     def ManuInit(self):
-        self.gameStatus = NOTACTIVATED
+        self.gameStatus = STATUS_NOTACTIVATED
         return
 
     def CheckStatus(self):
@@ -27,4 +27,5 @@ class GameManager(object):
         self.gameStatus = STATUS_INPROGRESS
         return
 
-
+    def LimitCommand(self):
+        self.gameStatus = STATUS_ACCEPTSUPPORTCMD

@@ -15,3 +15,6 @@ class player(object):
     def RegisterRole(self,argObj):
         self.roleObj = argObj
         return
+
+    def LoadPlayerObj(self):
+        return self.playerObj

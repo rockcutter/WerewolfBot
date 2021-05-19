@@ -25,3 +25,6 @@ class PlayerManager():
                 return True
 
         return False
+
+    def LoadPlayerClassList(self):
+        return self.playerClassList

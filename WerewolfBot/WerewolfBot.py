@@ -48,8 +48,9 @@ def main():
             discCtrl.RegisterChannel(message.channel)
             discCtrl.RegisterGuild(message.guild)
             gmmgr.ActivateGame()
+            await discCtrl.Say("Werewolf bot was activated!!")
             return
-
+        await SupportCmd(message)
         #Phase分岐
         if(gmmgr.CheckStatus() == GameManager.STATUS_NOTACTIVATED):
             return
@@ -62,7 +63,9 @@ def main():
             await InProgressPhaseCmd(message)
             return
 
-
+        if(gmmgr.CheckStatus() == GameManager.STATUS_ACCEPTSUPPORTCMD):
+            await SupportCmd(message)
+            return
         
     client.run(readenv.TOKEN)
 
@@ -90,7 +93,7 @@ async def ReceptionPhaseCmd(message):
             await discCtrl.Say("!set")
             return
         gmmgr.StartGame()
-        await ddiscCtrl.Say("!start")
+        await discCtrl.Say("!start")
         return
     return
 
@@ -104,15 +107,15 @@ async def SetRoleCount(roleObj):
 
 
 async def InProgressPhaseCmd(message):
-    channel = message.channel
     if(message.content == "!start"):
+        gmmgr.LimitCommand()
+
         
-        gm.RegisterRole()
         for mem in gm.member:
             await mem.playerData.send("あなたの役職は" + mem.role.RoleNameStr()+ "です")
             
         gm.Start()
-        await channel.send("(なんか長いルール説明)")
+        await discCtrl.Say("(なんか長いルール説明)")
         while(gm.GameInProgress()):
             #フェイズ初期化
             gm.TimePasses()
@@ -121,9 +124,11 @@ async def InProgressPhaseCmd(message):
             #フェイズ分岐処理
             if(gm.GetDayPhase() == MyModule.gamemaster.DAYPHASE_NIGHTPHASE):
                 #昨晩の結果発表処理
-                await channel.send(str(gm.GetDay())+"日目 "+ "昼")
-                await channel.send("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
+                await discCtrl.Say(str(gm.GetDay())+"日目 "+ "昼")
+                await discCtrl.Say("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
 
+                while(True):
+                    continue
                 
 
                 while(gm.MemberCount() > gm.VotedCount()):
@@ -135,24 +140,24 @@ async def InProgressPhaseCmd(message):
                 await gm.Execution(message.guild)
 
             else:
-                await channel.send(str(gm.GetDay())+"日目 "+ "夜")
-                await channel.send("恐ろしい夜の時間がやってきました。役職持ちのプレイヤーはDMにてアクションを行ってください")
+                await discCtrl.Say(str(gm.GetDay())+"日目 "+ "夜")
+                await discCtrl.Say("恐ろしい夜の時間がやってきました。役職持ちのプレイヤーはDMにてアクションを行ってください")
                                 
                 #人狼アクション
                 
                 #占い師アクション
 
-
-
-
-            #先の処理を追加するまでbreak
             
     if(message.content == "!list"):
         for i in range(len(gm.GetMemberList())):
             await channel.send(str(i) + ": " + str(gm.GetMemberList()[i].playerData))
     return
 
-
+async def SupportCmd(message):
+    if(message.content == "!list"):
+        for i in range(len(plmgr.LoadPlayerClassList())):
+            await discCtrl.Say(str(i) +": " + str(plmgr.LoadPlayerClassList()[i].LoadPlayerObj()))
+    return
 
 
 
