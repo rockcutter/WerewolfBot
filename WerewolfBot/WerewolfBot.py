@@ -78,7 +78,7 @@ async def ReceptionPhaseCmd(message):
         tempPlayerObj.RegisterPlayerObj(message.author)
         tempPlayerObj.RegisterRole(None)
         plmgr.AppendPlayer(tempPlayerObj)
-        await message.channel.send(str(message.author) + "の参加を受け付けました")
+        await message.channel.send(str(message.author) + "の参加を受け付けました")        
         return
 
     if(message.content == "!set"):
@@ -110,9 +110,11 @@ async def InProgressPhaseCmd(message):
     if(message.content == "!start"):
         gmmgr.LimitCommand()
 
-        
-        for mem in gm.member:
-            await mem.playerData.send("あなたの役職は" + mem.role.RoleNameStr()+ "です")
+        a = rolemgr.LoadRandomizedRoleObjList()
+        plmgr.ApplyRole(a)
+        print(a)
+        for tempPlCls in plmgr.LoadPlayerClassList():
+            await tempPlCls.LoadPlayerObj().send("あなたの役職は" + tempPlCls.LoadRoleObj().RoleNameStr()+ "です")
             
         gm.Start()
         await discCtrl.Say("(なんか長いルール説明)")
@@ -127,9 +129,8 @@ async def InProgressPhaseCmd(message):
                 await discCtrl.Say(str(gm.GetDay())+"日目 "+ "昼")
                 await discCtrl.Say("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
 
-                while(True):
-                    continue
-                
+                #vote処理が完成するまでbreak
+                break
 
                 while(gm.MemberCount() > gm.VotedCount()):
                     message = await client.wait_for("message")

@@ -20,5 +20,5 @@ class role(object):
         return False
 
     def RoleNameStr(self):
-        return name;
+        return self.name;
     
