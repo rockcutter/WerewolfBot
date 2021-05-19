@@ -1,9 +1,6 @@
 SIDE_VILLAGER = 0
 SIDE_WEREWOLF = 1
 
-
-
-
 class role(object):
     """役職基底クラス"""
     name = None

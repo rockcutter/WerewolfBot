@@ -23,9 +23,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="MyModule\command.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MyModule\game.py">
       <SubType>Code</SubType>
     </Compile>
@@ -50,6 +47,9 @@
     <Compile Include="MyModule\RoleModule\werewolf.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MyModule\Utilities\UtilFunctions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="readenv.py">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +58,7 @@
   <ItemGroup>
     <Folder Include="MyModule\" />
     <Folder Include="myModule\ManagerModule\" />
+    <Folder Include="MyModule\Utilities\" />
     <Folder Include="MyModule\PlayerModule\" />
     <Folder Include="MyModule\RoleModule\" />
   </ItemGroup>

@@ -1,11 +1,16 @@
 import discord
-
+#Manager
 from MyModule.ManagerModule import PlayerManager
 from MyModule.ManagerModule import RoleManager
+#role
+from MyModule.RoleModule import villager
+from MyModule.RoleModule import werewolf
+#player
+from MyModule.PlayerModule import player
+#util
+from MyModule.Utilities import UtilFunctions
 
-import MyModule.PlayerModule.player
-import MyModule.RoleModule.werewolf
-import MyModule.RoleModule.villager
+
 import MyModule.gamemaster
 
 import MyModule.PlayerModule.player
@@ -16,12 +21,13 @@ client = discord.Client()
 gm = MyModule.gamemaster.gamemaster()
 
 #管理クラス
-plmgr = PlayerManager()
-rlmgr = RoleManager()
+plmgr = PlayerManager.PlayerManager()
+rolemgr = RoleManager.RoleManager()
+
+
+
 
 def main():
-     
-
     @client.event
     async def on_ready():
         print("ready")
@@ -46,16 +52,26 @@ def main():
 
 async def ReceptionPhaseCmd(message):
     if(message.content == "!join" ):
+        if(plmgr.IsPlayer(message.author)):
+            return
         tempPlayerObj = MyModule.PlayerModule.player.player()
         tempPlayerObj.RegisterPlayerObj(message.author)
         tempPlayerObj.RegisterRole(None)
-        plmgr.AppendPlayer()
+        plmgr.AppendPlayer(tempPlayerObj)
+        await message.channel.send(str(message.author) + "の参加を受け付けました")
         return
 
     if(message.content == "!set"):
         #phase識別が必要
         #ロール人数の決定
         await message.channel.send("村人の人数を設定してください")
+        tempCount = await UtilFunctions.WaitforInteger(client)
+        for i in range(tempCount):
+            tempRoleObj = villager.villager()
+            rolemgr.AppendVillageRole(tempRoleObj)
+
+
+
         roleCountStr = message #初期化のため
         while(not IsInt(roleCountStr.content)):
             roleCountStr = await client.wait_for("message")
@@ -67,7 +83,6 @@ async def ReceptionPhaseCmd(message):
         roleCountStr = message #初期化のため
         while(not IsInt(roleCountStr.content)):
             roleCountStr = await client.wait_for("message")
-            print("test")
         #村人ロールの登録
         roleObjBuf = MyModule.roles.werewolf.werewolf(message.guild)
         gm.AddRoleList(roleObjBuf,int(roleCountStr.content))
@@ -78,6 +93,14 @@ async def ReceptionPhaseCmd(message):
             return
         gm.Start()
         await message.channel.send("!start")
+    return
+
+
+async def SetRoleCount(roleObj):
+    await message.channel.send(str(roleObj.name) + "の人数を設定してください")
+    tempCount = await UtilFunctions.WaitforInteger(client)
+    for i in range(tempCount):
+        rolemgr.AppendVillageRole(roleObj)
     return
 
 
@@ -130,13 +153,7 @@ async def InProgressPhaseCmd(message):
             await channel.send(str(i) + ": " + str(gm.GetMemberList()[i].playerData))
     return
 
-def IsInt(val):
-    try:
-        int(val)
-    except ValueError:
-        return False
-    else:
-        return True
+
 
 
 

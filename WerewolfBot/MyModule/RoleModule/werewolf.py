@@ -1,7 +1,7 @@
-import MyModule.roles.role
+from MyModule.RoleModule import role
 import readenv
 
-class werewolf(myModule.roles.role.role):
+class werewolf(role.role):
     """人狼ロール"""
     guild = None
 
@@ -11,9 +11,9 @@ class werewolf(myModule.roles.role.role):
         Args:
             argGuild: データ型
         """
-        myModule.roles.role.name = "werewolf"
-        myModule.roles.role.side = myModule.roles.role.SIDE_WEREWOLF
-        myModule.roles.role.action = self.WerewolfAction
+        role.role.name = "werewolf"
+        role.role.side = role.SIDE_WEREWOLF
+        role.role.action = self.WerewolfAction
         self.guild = argGuild
         return
     
