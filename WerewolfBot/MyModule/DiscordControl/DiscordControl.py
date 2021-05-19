@@ -3,6 +3,7 @@ class DiscordControl(object):
 
     guild = None
     channel = None
+    client = None
 
     def RegisterGuild(self,argGuild):
         """人狼が開催されるGuildを登録する関数"""
@@ -11,7 +12,11 @@ class DiscordControl(object):
 
     def RegisterChannel(self,argChannel):
         """人狼が開催されるchannelを登録する関数"""
-        self.channel = argChannell
+        self.channel = argChannel
+        return
+
+    def RegisterClient(self,argClient):
+        self.client = argClient
         return
 
     async def AddRole(self,playerObj,roleID):
@@ -21,5 +26,5 @@ class DiscordControl(object):
         return
 
     async def Say(self,message):
-        await channel.send(message)
+        await self.channel.send(message)
         return
