@@ -7,7 +7,7 @@ from MyModule.RoleModule import werewolf
 class RoleManager(object):
     """ロール管理全般"""
 
-    roleTemplateList = []
+    allRoleList = []
     roleObjList = []
     villageRoleCount = 0 
     wolfRoleCount = 0
@@ -19,11 +19,14 @@ class RoleManager(object):
     
     def ManuInit(self):
         """手動初期化の際に呼び出し"""
-        roleTemplateList = [villager.villager(), werewolf.werewolf()]
+        allRoleList = [villager.villager(), werewolf.werewolf()]
         self.roleObjList = []
         villageRoleCount = 0
         wolfRoleCount = 0
         return
+
+    def LoadAllRoleList(self):
+        return allRoleList
 
     #ロール登録処理--------------------------------------------------
     def AppendRole(self,roleObj):
@@ -42,3 +45,4 @@ class RoleManager(object):
     def WolfDeathProcess(self):
         self.villageRoleCount -= 1
         return
+
