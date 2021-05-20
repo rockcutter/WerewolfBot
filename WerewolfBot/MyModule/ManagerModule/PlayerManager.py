@@ -16,7 +16,7 @@ class PlayerManager():
 
     def AppendPlayer(self,playerDataObj):
         self.playerClassList.append(playerDataObj)
-        playerCount += 1
+        self.playerCount += 1
         return
 
     def IsPlayer(self,argObj):
