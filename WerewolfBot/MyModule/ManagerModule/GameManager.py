@@ -1,7 +1,8 @@
 STATUS_NOTACTIVATED =   0x00000000 #ゲーム活性化前
 STATUS_RECEPTION =      0x00010000 #ゲーム参加受付中
 STATUS_INPROGRESS =     0x00100000 #ゲーム進行中
-STATUS_ACCEPTSUPPORTCMD=0x00100001 #ゲーム進行中&サポートコマンドのみ受付
+STATUS_ACCEPTSUPPORTCMD=0x00100001 #ゲーム進行中&サポートコマンド以外受け付けない
+STATUS_ACCEPTROLECMD =  0x00100010 #ゲーム進行中&ロール系コマンドのみ受付
 
 class GameManager(object):
     """Gameの進行を管理する"""
@@ -22,14 +23,14 @@ class GameManager(object):
         return self.gameStatus
     #Time関連メソッド----------------------------------
     def TimePasses(self):
-        self.time += 1
+        self.gameTime += 1
         return
 
     def GetDay(self):
-        return self.time >> 1
+        return self.gameTime>> 1
 
     def GetDayPhase(self):
-        return self.time & 0b00000001
+        return self.gameTime & 0b00000001
 
     #status変更メソッド--------------------------------
     def ActivateGame(self):
