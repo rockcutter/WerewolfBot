@@ -6,6 +6,8 @@ STATUS_ACCEPTSUPPORTCMD=0x00100001 #ゲーム進行中&サポートコマンド�
 class GameManager(object):
     """Gameの進行を管理する"""
     gameStatus = STATUS_NOTACTIVATED
+    gameTime = None
+
 
     def __init__(self):
         self.ManuInit()
@@ -13,10 +15,21 @@ class GameManager(object):
 
     def ManuInit(self):
         self.gameStatus = STATUS_NOTACTIVATED
+        self.gameTime = 0b00000001#最下位ビットが1で夜 初期化は0日目夜
         return
 
     def CheckStatus(self):
         return self.gameStatus
+    #Time関連メソッド----------------------------------
+    def TimePasses(self):
+        self.time += 1
+        return
+
+    def GetDay(self):
+        return self.time >> 1
+
+    def GetDayPhase(self):
+        return self.time & 0b00000001
 
     #status変更メソッド--------------------------------
     def ActivateGame(self):
