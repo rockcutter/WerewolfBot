@@ -5,12 +5,14 @@ class VoteManager(object):
     votedPlayerObjList = []
 
     def __init__(self):
+        self.ManuInit()
+        return
+
+    def ManuInit(self):
         self.votedDict = {}
         self.votedCount = 0
         self.votedPlayerObjList = []
         return
-
-    
 
     def Vote(self,votedPlayerObj, voteTarget):
         if(votedPlayerObj in self.votedPlayerObjList):
