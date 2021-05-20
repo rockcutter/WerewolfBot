@@ -32,6 +32,12 @@ class PlayerManager():
             self.playerClassList[i].RegisterRole(roleObjList[i])
         return
 
+    def LoadMatchedPlayerClass(self, argObj):
+        for tempPlCls in self.playerClassList:
+            if(tempPlCls.playerObj == argObj):
+                return tempPlCls
+        return None
+
     def LoadPlayerClassList(self):
         return self.playerClassList
 
