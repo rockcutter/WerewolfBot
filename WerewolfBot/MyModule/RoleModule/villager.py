@@ -12,5 +12,5 @@ class villager(role.role):
         self.action = self.VillagerAction
         return    
 
-    def VillagerAction(self,player):
+    def VillagerAction(self,arg1 = None, arg2 = None,arg3 = None):
         return None

@@ -26,16 +26,13 @@
     <Compile Include="MyModule\DiscordControl\DiscordControl.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MyModule\game.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MyModule\gamemaster.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="myModule\ManagerModule\GameManager.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="myModule\ManagerModule\PlayerManager.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="myModule\ManagerModule\VoteManager.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MyModule\PlayerModule\player.py">
@@ -65,6 +62,7 @@
     <Folder Include="MyModule\" />
     <Folder Include="myModule\ManagerModule\" />
     <Folder Include="MyModule\DiscordControl\" />
+    <Folder Include="MyModule\VoteModule\" />
     <Folder Include="MyModule\Utilities\" />
     <Folder Include="MyModule\PlayerModule\" />
     <Folder Include="MyModule\RoleModule\" />

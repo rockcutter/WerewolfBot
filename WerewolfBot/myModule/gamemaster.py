@@ -14,7 +14,7 @@ class gamemaster(MyModule.game.game):
     def __init__(self):
         self.time= 0b00000001 #最下位ビットが1で夜 初期化は0日目夜
         return
-
+    #
     def RegisterRole(self):
         #ロールリストのシャッフル
         random.shuffle(self.roleList)
@@ -23,10 +23,10 @@ class gamemaster(MyModule.game.game):
         for mem in MyModule.game.game.member:
             mem.RegisterRole(self.roleList.pop(0))
         return
-
+    #
     def RoleList(self):
         return self.roleList
-
+    
     def TimePasses(self):
         self.time += 1
         return
@@ -44,7 +44,7 @@ class gamemaster(MyModule.game.game):
             return True
         return False
 
-    def VotedCount(self):
+    def votedCount(self):
         return self.votedCount
     
 

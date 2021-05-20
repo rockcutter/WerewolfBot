@@ -1,5 +1,4 @@
 from MyModule.RoleModule import role
-from MyModule.DiscordControl import DiscordControl
 import readenv
 
 class werewolf(role.role):
@@ -17,10 +16,12 @@ class werewolf(role.role):
         return
     
 
-    def WerewolfAction(self,player):
+    def WerewolfAction(self,arg1 = None, arg2 = None,arg3 = None):
         """
         人狼アクションを行う キル対象のプレイヤー情報をplayerに代入
         Args:
             player:Member型
         """    
+
+
         return 

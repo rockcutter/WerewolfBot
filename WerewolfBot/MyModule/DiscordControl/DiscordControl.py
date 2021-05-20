@@ -1,5 +1,5 @@
 class DiscordControl(object):
-    """discord関連の機能を持つ関数"""
+    """discord関連の機能を持つクラス"""
 
     guild = None
     channel = None

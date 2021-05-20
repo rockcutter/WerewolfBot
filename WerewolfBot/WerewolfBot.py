@@ -3,6 +3,7 @@ import discord
 from MyModule.ManagerModule import PlayerManager
 from MyModule.ManagerModule import RoleManager
 from MyModule.ManagerModule import GameManager
+from MyModule.ManagerModule import VoteManager
 #role
 from MyModule.RoleModule import villager
 from MyModule.RoleModule import werewolf
@@ -19,18 +20,11 @@ import readenv
 plmgr = PlayerManager.PlayerManager()
 rolemgr = RoleManager.RoleManager()
 gmmgr = GameManager.GameManager()
-
+votemgr = VoteManager.VoteManager()
 #discordコントロールクラス
 discCtrl = DiscordControl.DiscordControl()
 
 client = discord.Client()
-
-
-#どうすんのこれ
-import MyModule.gamemaster
-gm = MyModule.gamemaster.gamemaster()
-
-
 
 def main():
     #人狼ゲームの受付&ゲームが開始しているかどうか(人狼ゲームそのものの開始判定フラグ
@@ -50,7 +44,9 @@ def main():
             gmmgr.ActivateGame()
             await discCtrl.Say("Werewolf bot was activated!!")
             return
+
         await SupportCmd(message)
+
         #Phase分岐
         if(gmmgr.CheckStatus() == GameManager.STATUS_NOTACTIVATED):
             return
@@ -62,10 +58,6 @@ def main():
         if(gmmgr.CheckStatus() == GameManager.STATUS_INPROGRESS):
             await InProgressPhaseCmd(message)
             return
-
-        if(gmmgr.CheckStatus() == GameManager.STATUS_ACCEPTSUPPORTCMD):
-            await SupportCmd(message)
-            return
         
     client.run(readenv.TOKEN)
 
@@ -74,7 +66,7 @@ async def ReceptionPhaseCmd(message):
     if(message.content == "!join" ):
         if(plmgr.IsPlayer(message.author)):
             return
-        tempPlayerObj = MyModule.PlayerModule.player.player()
+        tempPlayerObj = player.player()
         tempPlayerObj.RegisterPlayerObj(message.author)
         tempPlayerObj.RegisterRole(None)
         plmgr.AppendPlayer(tempPlayerObj)
@@ -115,49 +107,53 @@ async def InProgressPhaseCmd(message):
         print(a)
         for tempPlCls in plmgr.LoadPlayerClassList():
             await tempPlCls.LoadPlayerObj().send("あなたの役職は" + tempPlCls.LoadRoleObj().RoleNameStr()+ "です")
+            print("あなたの役職は" + tempPlCls.LoadRoleObj().RoleNameStr()+ "です")
             
-        gm.Start()
         await discCtrl.Say("(なんか長いルール説明)")
-        while(gm.GameInProgress()):
+        while(True):
             #フェイズ初期化
-            gm.TimePasses()
-            gm.InitVotedList()
+            gmmgr.TimePasses()
+            votemgr.ManuInit()
+
 
             #フェイズ分岐処理
-            if(gm.GetDayPhase() == MyModule.gamemaster.DAYPHASE_NIGHTPHASE):
+            if(gmmgr.GetDayPhase() == 0b00000000):
                 #昨晩の結果発表処理
-                await discCtrl.Say(str(gm.GetDay())+"日目 "+ "昼")
+                await discCtrl.Say(str(gmmgr.GetDay())+"日目 "+ "昼")
                 await discCtrl.Say("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
-
-                #vote処理が完成するまでbreak
-                break
-
-                while(gm.MemberCount() > gm.VotedCount()):
+                
+                #投票先リストを表示する
+                await discCtrl.Say("!list")
+                #ループ
+                while(votemgr.LoadVoteCount() < plmgr.LoadPlayerCount()):
                     message = await client.wait_for("message")
-                    if(not IsInt(message.content)):
-                        continue
-                    gm.Vote(message)
+                    splitedCmd = message.content.split()
+                    if(splitedCmd[0] == "!vote" and len(splitedCmd) > 1):
+                        
+                        votemgr.Vote(message.author, splitedCmd[1])
 
-                await gm.Execution(message.guild)
+                print(votemgr.LoadMostVote())
+
+                #処刑
+                for playerNum in votemgr.LoadMostVote():
+                    await discCtrl.AddRole(plmgr.LoadPlayerClassList()[int(playerNum)].playerObj,readenv.EXECUTEDID)
 
             else:
-                await discCtrl.Say(str(gm.GetDay())+"日目 "+ "夜")
+                await discCtrl.Say(str(gmmgr.GetDay())+"日目 "+ "夜")
                 await discCtrl.Say("恐ろしい夜の時間がやってきました。役職持ちのプレイヤーはDMにてアクションを行ってください")
-                                
                 #人狼アクション
-                
-                #占い師アクション
-
-            
-    if(message.content == "!list"):
-        for i in range(len(gm.GetMemberList())):
-            await channel.send(str(i) + ": " + str(gm.GetMemberList()[i].playerData))
+                while(True):
+                    message = await client.wait_for("message")
+                    splitedCmd = message.content.split()
+                    if(splitedCmd[0] == "!kill" and len(splitedCmd) > 1 and plmgr.LoadMatchedPlayerClass(message.author).LoadRoleObj().RoleNameStr() == "werewolf"):
+                        await discCtrl.AddRole(plmgr.LoadPlayerClassList()[int(splitedCmd[1])].LoadPlayerObj(), readenv.KILLEDID)
+                        break
     return
 
 async def SupportCmd(message):
     if(message.content == "!list"):
-        for i in range(len(plmgr.LoadPlayerClassList())):
-            await discCtrl.Say(str(i) +": " + str(plmgr.LoadPlayerClassList()[i].LoadPlayerObj()))
+        for i in range(plmgr.LoadPlayerCount()):
+            await message.channel.send(str(i) +": " + str(plmgr.LoadPlayerClassList()[i].LoadPlayerObj()))
     return
 
 
