@@ -13,6 +13,7 @@ class RoleManager(object):
     roleObjList = []
     villageRoleCount = 0 
     wolfRoleCount = 0
+    roleCount = 0
 
     def __init__(self):
         """コンストラクタ"""
@@ -25,6 +26,7 @@ class RoleManager(object):
         self.roleObjList = []
         self.villageRoleCount = 0
         self.wolfRoleCount = 0
+        self.roleCount = 0
         return
 
     def LoadAllRoleList(self):
@@ -42,13 +44,18 @@ class RoleManager(object):
     def LoadWolfRoleCount(self):
         return self.wolfRoleCount
 
+    def LoadRoleCount(self):
+        return self.roleCount
+
     #ロール登録処理--------------------------------------------------
     def AppendRole(self,roleObj):
         self.roleObjList.append(roleObj)
         if(roleObj.side == role.SIDE_VILLAGER):
             self.villageRoleCount += 1
+            self.allRoleCount += 1
         if(roleObj.side == role.SIDE_WEREWOLF):
             self.wolfRoleCount += 1
+            self.allRoleCount += 1
         return
 
     #死亡時処理-----------------------------------------------------
