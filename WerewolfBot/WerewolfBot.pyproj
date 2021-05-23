@@ -62,7 +62,6 @@
     <Folder Include="MyModule\" />
     <Folder Include="myModule\ManagerModule\" />
     <Folder Include="MyModule\DiscordControl\" />
-    <Folder Include="MyModule\VoteModule\" />
     <Folder Include="MyModule\Utilities\" />
     <Folder Include="MyModule\PlayerModule\" />
     <Folder Include="MyModule\RoleModule\" />

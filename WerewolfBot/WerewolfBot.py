@@ -81,12 +81,16 @@ async def ReceptionPhaseCmd(message):
         await discCtrl.Say("役職数の登録が完了しました")
 
     if(message.content == "!start"):
-        if(rolemgr.LoadVillageRoleCount() + rolemgr.LoadWolfRoleCount() <= 0):
+        #start時エラー処理
+        if(rolemgr.LoadAllRoleCount <= 0):
             await discCtrl.Say("!set")
             return
         if(len(plmgr.LoadPlayerClassList()) == 0):
             await discCtrl.Say("参加者が0人です")
             return 
+        if(len(plmgr.LoadPlayerClassList()) > rolemgr.LoadAllRoleCount()):
+            await discCtrl.Say("参加者数 > 役職数 です")
+            return
 
         gmmgr.StartGame()
         await discCtrl.Say("!start")
@@ -95,7 +99,7 @@ async def ReceptionPhaseCmd(message):
 
 
 async def SetRoleCount(roleObj):
-    await discCtrl.Say(str(roleObj.name) + "の人数を設定してください")
+    await discCtrl.Say(str(roleObj.name) + "の人数を設定してください\n人数 < 役数だと役欠けが発生します")
     tempCount = await UtilFunctions.WaitforInteger(client)
     for i in range(tempCount):
         rolemgr.AppendRole(roleObj)
