@@ -23,6 +23,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MyModule\Utilities\cmdlist.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MyModule\DiscordControl\DiscordControl.py">
       <SubType>Code</SubType>
     </Compile>

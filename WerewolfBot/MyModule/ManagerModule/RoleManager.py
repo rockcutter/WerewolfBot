@@ -52,10 +52,10 @@ class RoleManager(object):
         self.roleObjList.append(roleObj)
         if(roleObj.side == role.SIDE_VILLAGER):
             self.villageRoleCount += 1
-            self.allRoleCount += 1
+            self.roleCount += 1
         if(roleObj.side == role.SIDE_WEREWOLF):
             self.wolfRoleCount += 1
-            self.allRoleCount += 1
+            self.roleCount += 1
         return
 
     #死亡時処理-----------------------------------------------------

@@ -11,6 +11,7 @@ from MyModule.RoleModule import werewolf
 from MyModule.PlayerModule import player
 #util
 from MyModule.Utilities import UtilFunctions
+from MyModule.Utilities import cmdlist
 #discord
 from MyModule.DiscordControl import DiscordControl
 #readenv
@@ -38,7 +39,7 @@ def main():
     async def on_message(message):
         if(str(message.content)[0] != "!"):return
 
-        if(message.content == "!werewolf"):
+        if(message.content == cmdlist.ACTIVATION):
             discCtrl.RegisterChannel(message.channel)
             discCtrl.RegisterGuild(message.guild)
             gmmgr.ActivateGame()
@@ -63,7 +64,7 @@ def main():
 
 
 async def ReceptionPhaseCmd(message):
-    if(message.content == "!join" ):
+    if(message.content == cmdlist.JOIN ):
         if(plmgr.IsPlayer(message.author)):
             return
         tempPlayerObj = player.player()
@@ -73,33 +74,32 @@ async def ReceptionPhaseCmd(message):
         await message.channel.send(str(message.author) + "の参加を受け付けました")        
         return
 
-    if(message.content == "!set"):
-        #phase識別が必要
-        #ロール人数の決定
+    if(message.content == cmdlist.SETROLE):
+        await discCtrl.Say("人数 < 役数だと役欠けが発生します")
         for tempRoleObj in rolemgr.LoadAllRoleList():
             await SetRoleCount(tempRoleObj)
         await discCtrl.Say("役職数の登録が完了しました")
 
-    if(message.content == "!start"):
+    if(message.content == cmdlist.START):
         #start時エラー処理
-        if(rolemgr.LoadAllRoleCount <= 0):
-            await discCtrl.Say("!set")
+        if(rolemgr.LoadRoleCount() <= 0):
+            await discCtrl.Say(cmdlist.SETROLE)
             return
         if(len(plmgr.LoadPlayerClassList()) == 0):
             await discCtrl.Say("参加者が0人です")
             return 
-        if(len(plmgr.LoadPlayerClassList()) > rolemgr.LoadAllRoleCount()):
+        if(len(plmgr.LoadPlayerClassList()) > rolemgr.LoadRoleCount()):
             await discCtrl.Say("参加者数 > 役職数 です")
             return
 
         gmmgr.StartGame()
-        await discCtrl.Say("!start")
+        await discCtrl.Say(cmdlist.START)
         return
     return
 
 
 async def SetRoleCount(roleObj):
-    await discCtrl.Say(str(roleObj.name) + "の人数を設定してください\n人数 < 役数だと役欠けが発生します")
+    await discCtrl.Say(str(roleObj.name) + "の人数を設定してください")
     tempCount = await UtilFunctions.WaitforInteger(client)
     for i in range(tempCount):
         rolemgr.AppendRole(roleObj)
@@ -107,7 +107,7 @@ async def SetRoleCount(roleObj):
 
 
 async def InProgressPhaseCmd(message):
-    if(message.content == "!start"):
+    if(message.content == cmdlist.START):
         gmmgr.LimitCommand()
 
         a = rolemgr.LoadRandomizedRoleObjList()
@@ -132,12 +132,12 @@ async def InProgressPhaseCmd(message):
                 await discCtrl.Say("昼になりました。誰が人狼なのかを話し合い、本日処刑する人を決めてもらいます。話し合いの後に処刑する人の投票を行います。")
                 
                 #投票先リストを表示する
-                await discCtrl.Say("!list")
+                await discCtrl.Say(cmdlist.SHOWLIST)
                 #ループ
                 while(votemgr.LoadVoteCount() < plmgr.LoadPlayerCount()):
                     message = await client.wait_for("message")
                     splitedCmd = message.content.split()
-                    if(splitedCmd[0] == "!vote" and len(splitedCmd) > 1):
+                    if(splitedCmd[0] == cmdlist.VOTE and len(splitedCmd) > 1):
                         
                         votemgr.Vote(message.author, splitedCmd[1])
 
@@ -154,14 +154,14 @@ async def InProgressPhaseCmd(message):
                 while(True):
                     message = await client.wait_for("message")
                     splitedCmd = message.content.split()
-                    if(splitedCmd[0] == "!kill" and len(splitedCmd) > 1 and plmgr.LoadMatchedPlayerClass(message.author).LoadRoleObj().RoleNameStr() == "werewolf"):
+                    if(splitedCmd[0] == cmdlist.WEREWOLF_KILL and len(splitedCmd) > 1 and plmgr.LoadMatchedPlayerClass(message.author).LoadRoleObj().RoleNameStr() == "werewolf"):
                         await discCtrl.AddRole(plmgr.LoadPlayerClassList()[int(splitedCmd[1])].LoadPlayerObj(), readenv.KILLEDID)
                     break
 
     return
 
 async def SupportCmd(message):
-    if(message.content == "!list"):
+    if(message.content == cmdlist.SHOWLIST):
         for i in range(plmgr.LoadPlayerCount()):
             await message.channel.send(str(i) +": " + str(plmgr.LoadPlayerClassList()[i].LoadPlayerObj()))
     return

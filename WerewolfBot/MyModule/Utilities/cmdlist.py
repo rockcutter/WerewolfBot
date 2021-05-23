@@ -1,0 +1,7 @@
+ACTIVATION = "!werewolf"
+JOIN = "!join"
+SETROLE = "!set"
+START = "!start"
+SHOWLIST = "!list"
+VOTE = "!vote"
+WEREWOLF_KILL = "!kill"
