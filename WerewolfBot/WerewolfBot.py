@@ -84,6 +84,10 @@ async def ReceptionPhaseCmd(message):
         if(rolemgr.LoadVillageRoleCount() + rolemgr.LoadWolfRoleCount() <= 0):
             await discCtrl.Say("!set")
             return
+        if(len(plmgr.LoadPlayerClassList()) == 0):
+            await discCtrl.Say("参加者が0人です")
+            return 
+
         gmmgr.StartGame()
         await discCtrl.Say("!start")
         return
@@ -105,6 +109,7 @@ async def InProgressPhaseCmd(message):
         a = rolemgr.LoadRandomizedRoleObjList()
         plmgr.ApplyRole(a)
         print(a)
+        #DM処理
         for tempPlCls in plmgr.LoadPlayerClassList():
             await tempPlCls.LoadPlayerObj().send("あなたの役職は" + tempPlCls.LoadRoleObj().RoleNameStr()+ "です")
             print("あなたの役職は" + tempPlCls.LoadRoleObj().RoleNameStr()+ "です")
@@ -147,7 +152,8 @@ async def InProgressPhaseCmd(message):
                     splitedCmd = message.content.split()
                     if(splitedCmd[0] == "!kill" and len(splitedCmd) > 1 and plmgr.LoadMatchedPlayerClass(message.author).LoadRoleObj().RoleNameStr() == "werewolf"):
                         await discCtrl.AddRole(plmgr.LoadPlayerClassList()[int(splitedCmd[1])].LoadPlayerObj(), readenv.KILLEDID)
-                        break
+                    break
+
     return
 
 async def SupportCmd(message):
